@@ -1,34 +1,33 @@
-package hello;
+package hello.service;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.stereotype.Service;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
+import twitter4j.auth.RequestToken;
 import twitter4j.conf.ConfigurationBuilder;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
-@Controller
-public class HelloController {
+//@Slf4j - logger
+@Service
+public class TwitterService {
+    public static final String APP_URI = "";
+    public static final String LOGIN_FAILED = APP_URI + "/loginfailed";
     Status status = null;
+    private Twitter twitter;
 
-    @RequestMapping("/")
-    public String index() {
-        return "index.html";
+    TwitterService(){
+        ConfigurationBuilder conf = new ConfigurationBuilder();
+        conf.setDebugEnabled(true)
+                .setOAuthConsumerKey("NuiqWe8qGEBUeYLKoswgzOqVm")
+                .setOAuthConsumerSecret("mSZUhCoPCNwfv3yK6HkiXtmvVZlPvT9pnxEpzo8J02mnDajcPt");
+        twitter =  new TwitterFactory(conf.build()).getInstance();
     }
 
-    @RequestMapping("/new")
-    public String content() {
-        return "logged_in.html";
-    }
-
-    @RequestMapping("/twitter")
-    public String post() {
+    public String getOAuthRequestToken() {
         ConfigurationBuilder conf = new ConfigurationBuilder();
         conf.setDebugEnabled(true)
                 .setOAuthConsumerKey("NuiqWe8qGEBUeYLKoswgzOqVm")
@@ -45,12 +44,16 @@ public class HelloController {
             e.printStackTrace();
         }
         System.out.println("Successfully updated the status to [" + status.getText() + "].");
-        return "Successfully updated the status to [" + status.getText() + "].";
+        return "token";
     }
 
-    @RequestMapping("/redirect")
-    public ResponseEntity redirect() throws URISyntaxException {
-        return ResponseEntity.status(HttpStatus.FOUND)
-                .location(new URI("http://localhost:8080/new")).build();
+    public URI getLoginUri() throws URISyntaxException {
+        try {
+            RequestToken requestToken = twitter.getOAuthRequestToken(APP_URI + "/return");
+            return new URI(requestToken.getAuthorizationURL());
+        } catch (TwitterException | URISyntaxException e) {
+            e.printStackTrace();
+            return new URI(LOGIN_FAILED);
+        }
     }
 }
