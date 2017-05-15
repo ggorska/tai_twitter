@@ -5,6 +5,7 @@ import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
+import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 import twitter4j.conf.ConfigurationBuilder;
 
@@ -16,15 +17,16 @@ import java.net.URISyntaxException;
 public class TwitterService {
     public static final String APP_URI = "https://taiproject2017.herokuapp.com";
     public static final String LOGIN_FAILED = APP_URI + "/loginfailed";
-    Status status = null;
+    private RequestToken requestToken;
     private Twitter twitter;
+    private AccessToken accessToken;
 
-    TwitterService(){
+    TwitterService() {
         ConfigurationBuilder conf = new ConfigurationBuilder();
         conf.setDebugEnabled(true)
                 .setOAuthConsumerKey("NuiqWe8qGEBUeYLKoswgzOqVm")
                 .setOAuthConsumerSecret("mSZUhCoPCNwfv3yK6HkiXtmvVZlPvT9pnxEpzo8J02mnDajcPt");
-        twitter =  new TwitterFactory(conf.build()).getInstance();
+        twitter = new TwitterFactory(conf.build()).getInstance();
     }
 
     public String getOAuthRequestToken() {
@@ -35,25 +37,31 @@ public class TwitterService {
                 .setOAuthAccessToken("862343971678425090-hYXhndkWdoUHal54zI2ZT25hGpoEdjS")
                 .setOAuthAccessTokenSecret("y9802EE0lYp5Sn5nTXOuGpFrzQwQjQGldqBvx1xxB17dw");
 
-        Twitter twitter = new TwitterFactory(conf.build()).getInstance();
-        try {
-            //specify callback url
-            //RequestToken requestToken = twitter.getOAuthRequestToken();
-            status = twitter.updateStatus("Hello world!");
-        } catch (TwitterException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Successfully updated the status to [" + status.getText() + "].");
+        System.out.println("Successfully updated the status ");
         return "token";
     }
 
     public URI getLoginUri() throws URISyntaxException {
         try {
-            RequestToken requestToken = twitter.getOAuthRequestToken(APP_URI + "/return");
+            requestToken = twitter.getOAuthRequestToken(APP_URI + "/return");
             return new URI(requestToken.getAuthorizationURL());
         } catch (TwitterException | URISyntaxException e) {
             e.printStackTrace();
             return new URI(LOGIN_FAILED);
+        }
+    }
+
+    public void getAccessToken(String oauth_token, String oauth_verifier) {
+        try {
+            accessToken = twitter.getOAuthAccessToken(requestToken);
+            twitter.setOAuthAccessToken(accessToken);
+            twitter.updateStatus("Got access token, debugging via social media");
+        } catch (TwitterException e) {
+            if (401 == e.getStatusCode()) {
+                System.out.println("Unable to get the access token.");
+            } else {
+                e.printStackTrace();
+            }
         }
     }
 }

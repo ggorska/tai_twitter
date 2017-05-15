@@ -26,7 +26,7 @@ public class HelloController {
         return "logged_in.html";
     }
 
-    @RequestMapping("/twitter")
+    //@RequestMapping("/twitter")
     public String post() {
         String token = twitterService.getOAuthRequestToken();
         return "Successfully updated the status to [" + token + "].";
@@ -47,6 +47,7 @@ public class HelloController {
     public String loggedIn(
             @RequestParam("oauth_token") String oauth_token,
             @RequestParam("oauth_verifier") String oauth_verifier){
+        twitterService.getAccessToken(oauth_token, oauth_verifier);
         return "logged_in.html";
     }
 }
