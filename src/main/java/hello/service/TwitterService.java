@@ -53,7 +53,7 @@ public class TwitterService {
 
     public void getAccessToken(String oauth_token, String oauth_verifier) {
         try {
-            accessToken = twitter.getOAuthAccessToken(requestToken);
+            accessToken = twitter.getOAuthAccessToken(oauth_token, oauth_verifier);
             twitter.setOAuthAccessToken(accessToken);
             twitter.updateStatus("Got access token, debugging via social media");
         } catch (TwitterException e) {
