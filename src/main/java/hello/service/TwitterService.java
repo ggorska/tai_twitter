@@ -14,7 +14,7 @@ import java.net.URISyntaxException;
 //@Slf4j - logger
 @Service
 public class TwitterService {
-    public static final String APP_URI = "";
+    public static final String APP_URI = "https://taiproject2017.herokuapp.com";
     public static final String LOGIN_FAILED = APP_URI + "/loginfailed";
     Status status = null;
     private Twitter twitter;

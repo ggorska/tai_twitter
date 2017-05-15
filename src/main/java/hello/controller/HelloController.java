@@ -6,14 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.Map;
 
 @Controller
 public class HelloController {
@@ -41,14 +36,6 @@ public class HelloController {
     public String loginFailed() {
         return "failed login";
     }
-
-    @RequestMapping("/redirect")
-    public ModelAndView redirect() throws URISyntaxException {
-        Map<String, Object> map = new HashMap<>();
-        map.put("user", "Bisia");
-        return new ModelAndView("logged_in.html", map);
-    }
-
     @RequestMapping("/login")
     public ResponseEntity login() throws URISyntaxException {
 
@@ -63,3 +50,11 @@ public class HelloController {
         return "logged_in.html";
     }
 }
+/*
+    @RequestMapping("/redirect")
+    public ModelAndView redirect() throws URISyntaxException {
+        Map<String, Object> map = new HashMap<>();
+        map.put("user", "Bisia");
+        return new ModelAndView("logged_in.html", map);
+    }
+*/
