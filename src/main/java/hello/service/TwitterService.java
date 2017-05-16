@@ -17,6 +17,8 @@ import java.net.URISyntaxException;
 public class TwitterService {
     public static final String APP_URI = "https://taiproject2017.herokuapp.com";
     public static final String LOGIN_FAILED = APP_URI + "/loginfailed";
+    public static final String CONSUMER_KEY = "NuiqWe8qGEBUeYLKoswgzOqVm";
+    public static final String CONSUMER_SECRET = "mSZUhCoPCNwfv3yK6HkiXtmvVZlPvT9pnxEpzo8J02mnDajcPt";
     private RequestToken requestToken;
     private Twitter twitter;
     private AccessToken accessToken;
@@ -54,10 +56,11 @@ public class TwitterService {
     }
 
     public void getAccessToken(String oauth_token, String oauth_verifier) {
-        if(oauth_token != requestToken.getToken()) {
+        if(oauth_token.equals(requestToken.getToken())) {
             System.out.println("Tokens do not match");
         }
         try {
+            twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
             accessToken = twitter.getOAuthAccessToken(requestToken, oauth_verifier);
             twitter.setOAuthAccessToken(accessToken);
             twitter.updateStatus("Got access token, debugging via social media");
