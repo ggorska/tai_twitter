@@ -60,7 +60,6 @@ public class TwitterService {
             System.out.println("Tokens do not match");
         }
         try {
-            twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
             accessToken = twitter.getOAuthAccessToken(requestToken, oauth_verifier);
             twitter.setOAuthAccessToken(accessToken);
             twitter.updateStatus("Got access token, debugging via social media");
