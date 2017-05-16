@@ -29,6 +29,7 @@ public class TwitterService {
         twitter = new TwitterFactory(conf.build()).getInstance();
     }
 
+    /*
     public String getOAuthRequestToken() {
         ConfigurationBuilder conf = new ConfigurationBuilder();
         conf.setDebugEnabled(true)
@@ -40,6 +41,7 @@ public class TwitterService {
         System.out.println("Successfully updated the status ");
         return "token";
     }
+    */
 
     public URI getLoginUri() throws URISyntaxException {
         try {
@@ -52,16 +54,19 @@ public class TwitterService {
     }
 
     public void getAccessToken(String oauth_token, String oauth_verifier) {
+        if(oauth_token != requestToken.getToken()) {
+            System.out.println("Tokens do not match");
+        }
         try {
             accessToken = twitter.getOAuthAccessToken(requestToken, oauth_verifier);
             twitter.setOAuthAccessToken(accessToken);
             twitter.updateStatus("Got access token, debugging via social media");
+            System.out.println("Received access token");
         } catch (TwitterException e) {
             if (401 == e.getStatusCode()) {
                 System.out.println("Unable to get the access token.");
-            } else {
-                e.printStackTrace();
             }
+            e.printStackTrace();
         }
     }
 }

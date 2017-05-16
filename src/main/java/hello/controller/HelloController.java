@@ -26,16 +26,11 @@ public class HelloController {
         return "logged_in.html";
     }
 
-    //@RequestMapping("/twitter")
-    public String post() {
-        String token = twitterService.getOAuthRequestToken();
-        return "Successfully updated the status to [" + token + "].";
-    }
-
     @RequestMapping(TwitterService.LOGIN_FAILED)
     public String loginFailed() {
         return "failed login";
     }
+
     @RequestMapping("/login")
     public ResponseEntity login() throws URISyntaxException {
 
