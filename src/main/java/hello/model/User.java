@@ -1,7 +1,9 @@
 package hello.model;
 
+import java.io.Serializable;
+
 //@Data
-public class User {
+public class User implements Serializable {
     private String username;
 
     public String getUsername() {

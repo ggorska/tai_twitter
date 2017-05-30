@@ -21,6 +21,12 @@ public class HelloController {
         return "index.html";
     }
 
+    @RequestMapping("/search")
+    public String searchResults(@RequestParam("search") String searchString) {
+        twitterService.search(searchString);
+        return "search_results.html";
+    }
+
     @RequestMapping("/new")
     public String content() {
         return "logged_in.html";
@@ -46,11 +52,3 @@ public class HelloController {
         return "logged_in.html";
     }
 }
-/*
-    @RequestMapping("/redirect")
-    public ModelAndView redirect() throws URISyntaxException {
-        Map<String, Object> map = new HashMap<>();
-        map.put("user", "Bisia");
-        return new ModelAndView("logged_in.html", map);
-    }
-*/

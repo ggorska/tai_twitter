@@ -1,10 +1,9 @@
 package hello.service;
 
+import hello.model.TweetList;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import twitter4j.Status;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
+import twitter4j.*;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 import twitter4j.conf.ConfigurationBuilder;
@@ -15,7 +14,8 @@ import java.net.URISyntaxException;
 //@Slf4j - logger
 @Service
 public class TwitterService {
-    public static final String APP_URI = "https://taiproject2017.herokuapp.com";
+//    public static final String APP_URI = "https://taiproject2017.herokuapp.com";
+    public static final String APP_URI = "localhost:8080";
     public static final String LOGIN_FAILED = APP_URI + "/loginfailed";
     public static final String CONSUMER_KEY = "NuiqWe8qGEBUeYLKoswgzOqVm";
     public static final String CONSUMER_SECRET = "mSZUhCoPCNwfv3yK6HkiXtmvVZlPvT9pnxEpzo8J02mnDajcPt";
@@ -23,11 +23,15 @@ public class TwitterService {
     private Twitter twitter;
     private AccessToken accessToken;
 
+    @Autowired private TweetList tweetList;
+
     TwitterService() {
         ConfigurationBuilder conf = new ConfigurationBuilder();
         conf.setDebugEnabled(true)
-                .setOAuthConsumerKey("NuiqWe8qGEBUeYLKoswgzOqVm")
-                .setOAuthConsumerSecret("mSZUhCoPCNwfv3yK6HkiXtmvVZlPvT9pnxEpzo8J02mnDajcPt");
+                .setOAuthConsumerKey(CONSUMER_KEY)
+                .setOAuthConsumerSecret(CONSUMER_SECRET)
+                .setOAuthAccessToken("862343971678425090-hYXhndkWdoUHal54zI2ZT25hGpoEdjS")
+                .setOAuthAccessTokenSecret("y9802EE0lYp5Sn5nTXOuGpFrzQwQjQGldqBvx1xxB17dw");
         twitter = new TwitterFactory(conf.build()).getInstance();
     }
 
@@ -68,6 +72,17 @@ public class TwitterService {
             if (401 == e.getStatusCode()) {
                 System.out.println("Unable to get the access token.");
             }
+            e.printStackTrace();
+        }
+    }
+
+    public void search(String searchString) {
+        Query query = new Query(searchString);
+        try {
+            QueryResult result = twitter.search(query);
+            tweetList.addTweets(result.getTweets());
+            System.out.println("TwitterService " + tweetList.getTweetNo());
+        } catch (TwitterException e) {
             e.printStackTrace();
         }
     }
