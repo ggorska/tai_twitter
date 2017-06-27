@@ -25,8 +25,11 @@ public class DataController {
     }
 
     @RequestMapping("/tweets")
-    public Status tweetList() {
-        return tweetList.getList().get(0);
+    public String tweetList() {
+        Status tw = tweetList.getList().get(0);
+        String url= "https://twitter.com/" + tw.getUser().getScreenName()
+                + "/status/" + tw.getId();
+        return url;
     }
 
     @RequestMapping("/tweetnum")

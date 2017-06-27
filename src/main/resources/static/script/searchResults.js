@@ -7,6 +7,10 @@ $(document).ready(function () {
 
     var results = $('#results');
     $.get('/api/tweets', function (data) {
+
+        $.get('https://publish.twitter.com/oembed', {url: data}, function (data) {
+            console.log(JSON.stringify(data));
+        });
         results.text("results " + JSON.stringify(data));
         console.log(JSON.stringify(data));
     });
