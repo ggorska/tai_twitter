@@ -6,16 +6,14 @@ import twitter4j.Status;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Limonka on 2017-05-22.
- */
 @Component
 public class TweetList {
+    private static final int MAX_TWEETS_NUMBER = 10;
     List<Status> tweets = new ArrayList<>();
 
     public void addTweets(List<Status> newTweets) {
         tweets.clear();
-        tweets.addAll(newTweets);
+        tweets.addAll(newTweets.subList(0, MAX_TWEETS_NUMBER));
     }
 
     public int getTweetNo() {

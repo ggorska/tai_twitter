@@ -17,11 +17,11 @@ public class TwitterService {
 //    public static final String APP_URI = "https://taiproject2017.herokuapp.com";
     public static final String APP_URI = "localhost:8080";
     public static final String LOGIN_FAILED = APP_URI + "/loginfailed";
-    public static final String CONSUMER_KEY = "NuiqWe8qGEBUeYLKoswgzOqVm";
-    public static final String CONSUMER_SECRET = "mSZUhCoPCNwfv3yK6HkiXtmvVZlPvT9pnxEpzo8J02mnDajcPt";
+    private static final String CONSUMER_KEY = "NuiqWe8qGEBUeYLKoswgzOqVm";
+    private static final String CONSUMER_SECRET = "mSZUhCoPCNwfv3yK6HkiXtmvVZlPvT9pnxEpzo8J02mnDajcPt";
     private RequestToken requestToken;
+
     private Twitter twitter;
-    private AccessToken accessToken;
 
     @Autowired private TweetList tweetList;
 
@@ -49,6 +49,16 @@ public class TwitterService {
     }
     */
 
+    public String getUserName() {
+        try {
+            return twitter.getScreenName();
+        } catch (TwitterException e) {
+            e.printStackTrace();
+            return "unknown";
+        }
+
+    }
+
     public URI getLoginUri() throws URISyntaxException {
         try {
             requestToken = twitter.getOAuthRequestToken(APP_URI + "/return");
@@ -64,7 +74,7 @@ public class TwitterService {
             System.out.println("Tokens do not match");
         }
         try {
-            accessToken = twitter.getOAuthAccessToken(requestToken, oauth_verifier);
+            AccessToken accessToken = twitter.getOAuthAccessToken(requestToken, oauth_verifier);
             twitter.setOAuthAccessToken(accessToken);
             twitter.updateStatus("Got access token, debugging via social media");
             System.out.println("Received access token");
@@ -80,7 +90,8 @@ public class TwitterService {
         Query query = new Query(searchString);
         try {
             QueryResult result = twitter.search(query);
-            tweetList.addTweets(result.getTweets());
+            tweetList.addTweets(twitter.getHomeTimeline());
+//            tweetList.addTweets(result.getTweets());
             System.out.println("TwitterService " + tweetList.getTweetNo());
         } catch (TwitterException e) {
             e.printStackTrace();
