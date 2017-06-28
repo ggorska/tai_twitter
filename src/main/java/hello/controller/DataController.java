@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import twitter4j.Status;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequestMapping("/api")
@@ -25,11 +26,12 @@ public class DataController {
     }
 
     @RequestMapping("/tweets")
-    public String tweetList() {
-        Status tw = tweetList.getList().get(0);
-        String url= "https://twitter.com/" + tw.getUser().getScreenName()
-                + "/status/" + tw.getId();
-        return url;
+    public List<String> tweetList() {
+        List<String> ids = new ArrayList<>();
+        for ( Status status : tweetList.getList()) {
+            ids.add("" +status.getId());
+        }
+        return ids;
     }
 
     @RequestMapping("/tweetnum")

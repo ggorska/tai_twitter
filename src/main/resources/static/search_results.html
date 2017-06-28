@@ -17,61 +17,9 @@
 </div>
 <div class="well"><h3 id="results"> Search results </h3></div>
 
-
-<style>
-
-    #tweet {
-        width: 400px !important;
-    }
-
-    #tweet iframe {
-        border: none !important;
-        box-shadow: none !important;
-    }
-
-</style>
-
 <div id="tweet" tweetID="515490786800963584"></div>
 
 <script sync src="https://platform.twitter.com/widgets.js"></script>
-
-<script>
-
-    window.onload = (function(){
-
-        var tweet = document.getElementById("tweet");
-        var id = tweet.getAttribute("tweetID");
-
-        twttr.widgets.createTweet(
-            id, tweet,
-            {
-                conversation : 'none',    // or all
-                cards        : 'hidden',  // or visible
-                linkColor    : '#cc0000', // default is blue
-                theme        : 'light'    // or dark
-            })
-            .then (function (el) {
-                el.contentDocument.querySelector(".footer").style.display = "none";
-            });
-
-        var tweet = document.getElementById("tweet");
-        var id = tweet.getAttribute("tweetID");
-
-        twttr.widgets.createTweet(
-            id, tweet,
-            {
-                conversation : 'none',    // or all
-                cards        : 'hidden',  // or visible
-                linkColor    : '#cc0000', // default is blue
-                theme        : 'light'    // or dark
-            })
-            .then (function (el) {
-                el.contentDocument.querySelector(".footer").style.display = "none";
-            });
-
-    });
-
-</script>
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
