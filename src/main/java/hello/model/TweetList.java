@@ -8,16 +8,21 @@ import java.util.List;
 
 @Component
 public class TweetList {
-    private static final int MAX_TWEETS_NUMBER = 10;
-    List<Status> tweets = new ArrayList<>();
+    private int TWEET_LIMIT = 10;
+    private List<Status> tweets = new ArrayList<>();
+    public int filtered;
 
     public void addTweets(List<Status> newTweets) {
         tweets.clear();
-        tweets.addAll(newTweets.subList(0, MAX_TWEETS_NUMBER));
+        if (newTweets.size() > TWEET_LIMIT) {
+            tweets.addAll(newTweets.subList(0, TWEET_LIMIT));
+        } else {
+            tweets.addAll(newTweets);
+        }
     }
 
-    public int getTweetNo() {
-        return tweets.size();
+    public int getFilteredTweetNo() {
+        return filtered;
     }
 
     public String toString() {
@@ -30,5 +35,9 @@ public class TweetList {
 
     public List<Status> getList() {
         return tweets;
+    }
+
+    public void setLimit(int limit) {
+        this.TWEET_LIMIT = limit;
     }
 }

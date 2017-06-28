@@ -8,9 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import twitter4j.Status;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,12 +21,11 @@ public class DataController {
     private TwitterService service;
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public User getCurrentUser() {
-        User user = new User();
-        user.setUsername(service.getUserName());
-        return user;
+    public String getCurrentUser() {
+        return service.getUserName();
     }
 
+    /** Returns list of tweet ids currently in tweetList*/
     @RequestMapping("/tweets")
     public List<String> tweetList() {
         List<String> ids = new ArrayList<>();
@@ -41,7 +37,6 @@ public class DataController {
 
     @RequestMapping("/tweetnum")
     public int tweetNum() {
-        System.out.println("data controller getting tweet number " + tweetList.getTweetNo());
-        return tweetList.getTweetNo();
+        return tweetList.getFilteredTweetNo();
     }
 }

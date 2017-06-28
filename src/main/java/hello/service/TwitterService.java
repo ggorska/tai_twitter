@@ -10,6 +10,8 @@ import twitter4j.conf.ConfigurationBuilder;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 //@Slf4j - logger
 @Service
@@ -35,19 +37,30 @@ public class TwitterService {
         twitter = new TwitterFactory(conf.build()).getInstance();
     }
 
-    /*
-    public String getOAuthRequestToken() {
-        ConfigurationBuilder conf = new ConfigurationBuilder();
-        conf.setDebugEnabled(true)
-                .setOAuthConsumerKey("NuiqWe8qGEBUeYLKoswgzOqVm")
-                .setOAuthConsumerSecret("mSZUhCoPCNwfv3yK6HkiXtmvVZlPvT9pnxEpzo8J02mnDajcPt")
-                .setOAuthAccessToken("862343971678425090-hYXhndkWdoUHal54zI2ZT25hGpoEdjS")
-                .setOAuthAccessTokenSecret("y9802EE0lYp5Sn5nTXOuGpFrzQwQjQGldqBvx1xxB17dw");
-
-        System.out.println("Successfully updated the status ");
-        return "token";
+    public void filter(String searchString, int limit) {
+        tweetList.setLimit(limit);
+        try {
+            List<Status> timeline  = twitter.getHomeTimeline();
+            System.out.println("timeline " + timeline.size());
+            tweetList.filtered = 0;
+            List<Status> filtered = new ArrayList<>();
+            int i = 0;
+            while (filtered.size() < limit && i < timeline.size()) {
+                if (!timeline.get(i).getText().contains(searchString)) {
+                    filtered.add(timeline.get(i));
+                } else {
+                    tweetList.filtered++;
+                }
+                i++;
+            }
+            tweetList.addTweets(filtered);
+        } catch (TwitterException e) {
+            e.printStackTrace();
+        }
+        System.out.println("TwitterService filtered out" + tweetList.getFilteredTweetNo());
     }
-    */
+
+
 
     public String getUserName() {
         try {
@@ -86,13 +99,12 @@ public class TwitterService {
         }
     }
 
-    public void search(String searchString) {
+    public void search(String searchString, int limit) {
         Query query = new Query(searchString);
         try {
             QueryResult result = twitter.search(query);
-            tweetList.addTweets(twitter.getHomeTimeline());
-//            tweetList.addTweets(result.getTweets());
-            System.out.println("TwitterService " + tweetList.getTweetNo());
+            tweetList.addTweets(result.getTweets());
+            System.out.println("TwitterService " + tweetList.getFilteredTweetNo());
         } catch (TwitterException e) {
             e.printStackTrace();
         }

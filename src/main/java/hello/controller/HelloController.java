@@ -22,8 +22,15 @@ public class HelloController {
     }
 
     @RequestMapping("/search")
-    public String searchResults(@RequestParam("search") String searchString) {
-        twitterService.search(searchString);
+    public String searchResults(@RequestParam("search") String searchString,
+                                @RequestParam("limit") String limit) {
+       int lim;
+        try {
+           lim = Integer.parseInt(limit);
+       } catch (NumberFormatException e ){
+           lim = 10;
+       }
+        twitterService.filter(searchString, lim);
         return "search_results.html";
     }
 
