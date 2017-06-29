@@ -61,6 +61,9 @@ public class TwitterService {
     }
 
     private boolean contains(Status status, String searchString) {
+        if(searchString.equals("")) {
+            return false;
+        }
         String[] words = status.getText().split(" ");
         for (String word : words) {
             if (word.startsWith(searchString)) {

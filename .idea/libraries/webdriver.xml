@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="webdriver">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/src/selenium-java-3.4.0/lib" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/src/selenium-java-3.4.0/lib" recursive="false" />
+  </library>
+</component>

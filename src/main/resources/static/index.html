@@ -22,12 +22,12 @@
 <form action="/search" method="get">
     <div class="col-lg-6">
         <div class="input-group">
-            <input name="search" type="text" class="form-control" placeholder="Filter...">
-            <input name="limit" type="number" class="form-control" placeholder="Max number of tweets">
+            <input name="search" id="filter" type="text" class="form-control" placeholder="Filter...">
+            <input name="limit" id="limit" type="number" class="form-control" placeholder="Max number of tweets">
 
         </div><!-- /input-group -->
         <span class="input-group-btn">
-            <button type="submit" class="btn btn-default" onclick="location.href='/api/search'">Go!</button>
+            <button type="submit" id="submit" class="btn btn-default" onclick="location.href='/api/search'">Go!</button>
           </span>
     </div><!-- /.col-lg-6 -->
 </form>
