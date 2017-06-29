@@ -1,7 +1,6 @@
 package hello.controller;
 
 import hello.model.TweetList;
-import hello.model.User;
 import hello.service.TwitterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -46,7 +46,7 @@ public class TwitterService {
             List<Status> filtered = new ArrayList<>();
             int i = 0;
             while (filtered.size() < limit && i < timeline.size()) {
-                if (!timeline.get(i).getText().contains(searchString)) {
+                if (!contains(timeline.get(i), searchString)) {
                     filtered.add(timeline.get(i));
                 } else {
                     tweetList.filtered++;
@@ -60,6 +60,15 @@ public class TwitterService {
         System.out.println("TwitterService filtered out" + tweetList.getFilteredTweetNo());
     }
 
+    private boolean contains(Status status, String searchString) {
+        String[] words = status.getText().split(" ");
+        for (String word : words) {
+            if (word.startsWith(searchString)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 
     public String getUserName() {
