@@ -13,7 +13,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-//@Slf4j - logger
+
 @Service
 public class TwitterService {
 //    public static final String APP_URI = "https://taiproject2017.herokuapp.com";
@@ -57,7 +57,7 @@ public class TwitterService {
         } catch (TwitterException e) {
             e.printStackTrace();
         }
-        System.out.println("TwitterService filtered out" + tweetList.getFilteredTweetNo());
+        System.out.println("TwitterService filtered out " + tweetList.getFilteredTweetNo());
     }
 
     private boolean contains(Status status, String searchString) {
@@ -117,5 +117,9 @@ public class TwitterService {
         } catch (TwitterException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setTwitter(Twitter twitter) {
+        this.twitter = twitter;
     }
 }
