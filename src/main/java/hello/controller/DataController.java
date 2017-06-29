@@ -24,7 +24,7 @@ public class DataController {
         return service.getUserName();
     }
 
-    /** Returns list of tweet ids currently in tweetList*/
+    /** Returns list of tweet ids currently in tweetList */
     @RequestMapping("/tweets")
     public List<String> tweetList() {
         List<String> ids = new ArrayList<>();
@@ -34,6 +34,7 @@ public class DataController {
         return ids;
     }
 
+    /** Returns number of filtered out tweets */
     @RequestMapping("/tweetnum")
     public int tweetNum() {
         return tweetList.getFilteredTweetNo();

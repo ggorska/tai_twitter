@@ -21,7 +21,7 @@ public class HelloController {
         return "index.html";
     }
 
-    @RequestMapping("/search")
+    @RequestMapping("/filter")
     public String searchResults(@RequestParam("search") String searchString,
                                 @RequestParam("limit") String limit) {
        int lim;

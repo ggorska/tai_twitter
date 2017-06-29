@@ -15,6 +15,7 @@ import java.util.List;
 
 
 @Service
+/** Service for communicating with twitter, accessing home timeline and processing tweets */
 public class TwitterService {
 //    public static final String APP_URI = "https://taiproject2017.herokuapp.com";
     public static final String APP_URI = "localhost:8080";
@@ -37,6 +38,7 @@ public class TwitterService {
         twitter = new TwitterFactory(conf.build()).getInstance();
     }
 
+    /** Gets current timeline from twitter and filters out tweets containing searchString */
     public void filter(String searchString, int limit) {
         tweetList.setLimit(limit);
         try {
@@ -109,20 +111,5 @@ public class TwitterService {
             }
             e.printStackTrace();
         }
-    }
-
-    public void search(String searchString, int limit) {
-        Query query = new Query(searchString);
-        try {
-            QueryResult result = twitter.search(query);
-            tweetList.addTweets(result.getTweets());
-            System.out.println("TwitterService " + tweetList.getFilteredTweetNo());
-        } catch (TwitterException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void setTwitter(Twitter twitter) {
-        this.twitter = twitter;
     }
 }

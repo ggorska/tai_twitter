@@ -14,7 +14,7 @@ import java.net.URISyntaxException;
 
 import static org.junit.Assert.assertTrue;
 
-public class DataControllerTest {
+public class HelloControllerTest {
     @Test
     public void clickSubmitForm() throws MalformedURLException, URISyntaxException {
         File file = new File("C:\\Bisia\\6sem\\TAI\\tai\\src\\geckodriver-v0.17.0-win64\\geckodriver.exe");

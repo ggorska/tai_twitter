@@ -8,10 +8,12 @@ import java.util.List;
 
 @Component
 public class TweetList {
+    /** Default limit */
     private int TWEET_LIMIT = 10;
     private List<Status> tweets = new ArrayList<>();
     public int filtered;
 
+    /** Replaces old tweet list with new list, truncated up to Tweet limit */
     public void addTweets(List<Status> newTweets) {
         tweets.clear();
         if (newTweets.size() > TWEET_LIMIT) {
